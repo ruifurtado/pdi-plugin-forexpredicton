@@ -44,3 +44,6 @@ unzip kettle-forexpredicton-plugin-8.0-SNAPSHOT.zip
 
 ## Plugin usage
 
+As stated before, the pdi-plugin-forexprediction is a forecasting plugin that as the ability to compare different types of FOREX markets. Therefore, there are some specific guidelines that one should follow in order to succesfully run the plugin.
+
+* The plugin receives an *__n__*
