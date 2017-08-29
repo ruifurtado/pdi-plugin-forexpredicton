@@ -1,5 +1,5 @@
-<a href="https://http://www.pentaho.com/">
-    <img src="https://https://businessintelligence.com/wp-content/themes/bi/assets/images/vendor/pentaho-logo.png" alt="Pentaho logo" title="Pentaho" align="right" height="60" />
+<a href="https://www.pentaho.com/">
+    <img src="https://businessintelligence.com/wp-content/themes/bi/assets/images/vendor/pentaho-logo.png" align="right" height="120" />
 </a>
 
 # pdi-plugin-forexprediction
