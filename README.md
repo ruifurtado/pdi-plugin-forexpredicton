@@ -50,8 +50,10 @@ As stated before, the pdi-plugin-forexprediction is a forecasting plugin that as
 
 * __Output folder path__: An output folder should also be specified by the user. This folder is going to have a *__N__* number of CSV's that correspond to individual forecasts of each market. Additionally, an extra CSV will also be provided where each market is compared.
 
-*
+* __Prediction Steps__: This parameter specifies how many days are we going to predict. 
 
+* __Save created models__: If save created model is checked, each trained model will be saved in the selected output folder. The models are saved as a folder with the name of the CSV that was used to train that model.
 
+* __Models file path__: If the user already has some pre-trained models corresponding to each inputed CSV, it is also possible to use them by a similar mechanism as the one used to specify the output folder path, avoiding the training phase. The user must provide a path to a folder where each pre-trained model is stored. Each model should have the same name as the correponding CSV, otherwise the system would not be able to associate them, and will perform unnecessary training.
 
 
