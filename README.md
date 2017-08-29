@@ -46,8 +46,8 @@ unzip kettle-forexpredicton-plugin-8.0-SNAPSHOT.zip
 
 As stated before, the pdi-plugin-forexprediction is a forecasting plugin that as the ability to compare different types of FOREX markets. Therefore, there are some specific guidelines that one should follow in order to succesfully run the plugin.
 
-* The plugin receives *__N__* CSV, which correspond to *__N__* different markets that user wants to evaluate. To provide this data as input, the user needs to have all the CSV's stored in the same folder, and specify this folder path in the plugin dialog.
+* The plugin receives *__N__* CSV, which correspond to *__N__* different markets that user wants to evaluate. To provide this data as input, the user needs to have all the CSV's stored in the same folder, and specify this folder path in the plugin dialog. The specified folder should only contain CSV's that are going to be used by the plugin. The inputed CSV's should be properly formatted as the ones provided in the __sample__ folder. The system does not accept non-numerical features, so the user should be careful with the values displayed by each data row.   
 
-![input](https://user-images.githubusercontent.com/11192624/29824377-54f46e54-8cc9-11e7-97cc-a1518063b5fe.png)
+
 
 
