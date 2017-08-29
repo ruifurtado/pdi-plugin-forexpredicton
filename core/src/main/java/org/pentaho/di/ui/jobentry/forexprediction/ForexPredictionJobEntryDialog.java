@@ -66,17 +66,9 @@ public class ForexPredictionJobEntryDialog extends JobEntryDialog implements Job
     private TextVar wForecastSteps;
     private FormData fdlForecastSteps, fdForecastSteps;
 
-    private Label wlToLoad;
-    private Button wToLoad;
-    private FormData fdlToLoad, fdToLoad;
-
     private Label wlToSave;
     private Button wToSave;
     private FormData fdlToSave, fdToSave;
-
-    private Label wlModelName;
-    private TextVar wModelName;
-    private FormData fdlModelName, fdModelName;
 
     private Label wlToLoadFile;
     private Button wbToLoadFile;
@@ -96,12 +88,6 @@ public class ForexPredictionJobEntryDialog extends JobEntryDialog implements Job
     private Button wbConfigFile;
     private TextVar wConfigFile;
     private FormData fdlConfigFile, fdbConfigFile, fdConfigFile;
-
-    private Label wlModelConfigFolder;
-    private Button wbModelConfigFolder;
-    private TextVar wModelConfigFolder;
-    private FormData fdlModelConfigFolder, fdbModelConfigFolder, fdModelConfigFolder;
-
 
     private ForexPredictionJobEntry meta;
     private Shell shell;
@@ -172,7 +158,7 @@ public class ForexPredictionJobEntryDialog extends JobEntryDialog implements Job
 
         wbFilename = new Button(shell, SWT.PUSH | SWT.CENTER);
         props.setLook( wbFilename );
-        wbFilename.setText( BaseMessages.getString( PKG, "System.Button.Browse" ) );
+        wbFilename.setText( BaseMessages.getString( PKG, "ForexPrediction.Browse" ) );
         fdbFilename = new FormData();
         fdbFilename.right = new FormAttachment( 100, 0 );
         fdbFilename.top = new FormAttachment( wName, 0 );
@@ -186,13 +172,7 @@ public class ForexPredictionJobEntryDialog extends JobEntryDialog implements Job
         fdFilename.top = new FormAttachment( wName, margin );
         fdFilename.right = new FormAttachment( wbFilename, -margin );
         wFilename.setLayoutData( fdFilename );
-
-        // Whenever something changes, set the tooltip to the expanded version:
-        wFilename.addModifyListener( new ModifyListener() {
-            public void modifyText( ModifyEvent e ) {
-                wFilename.setToolTipText( jobMeta.environmentSubstitute( wFilename.getText() ) );
-            }
-        } );
+        wFilename.setToolTipText( BaseMessages.getString( PKG, "ForexPrediction.Filename.Tooltip" ) );
 
         wbFilename.addSelectionListener( new SelectionAdapter() {
             public void widgetSelected( SelectionEvent e ) {
@@ -213,15 +193,15 @@ public class ForexPredictionJobEntryDialog extends JobEntryDialog implements Job
         props.setLook( wlOutputFolder );
         fdlOutputFolder = new FormData();
         fdlOutputFolder.left = new FormAttachment( 0, 0 );
-        fdlOutputFolder.top = new FormAttachment( wFilename, 2 * margin );
+        fdlOutputFolder.top = new FormAttachment( wFilename, margin );
         fdlOutputFolder.right = new FormAttachment( middle, -margin );
         wlOutputFolder.setLayoutData( fdlOutputFolder );
         wbOutputFolder = new Button( shell, SWT.PUSH | SWT.CENTER );
         props.setLook( wbOutputFolder );
-        wbOutputFolder.setText( BaseMessages.getString( PKG, "System.Button.Browse" ) );
+        wbOutputFolder.setText( BaseMessages.getString( PKG, "ForexPrediction.Browse" ) );
         fdbOutputFolder = new FormData();
-        fdbOutputFolder.right = new FormAttachment( 100, -margin );
-        fdbOutputFolder.top = new FormAttachment( wFilename, 2 * margin );
+        fdbOutputFolder.right = new FormAttachment( 100, 0 );
+        fdbOutputFolder.top = new FormAttachment( wFilename, margin );
         wbOutputFolder.setLayoutData( fdbOutputFolder );
         wbOutputFolder.addSelectionListener( new SelectionAdapter() {
             public void widgetSelected( SelectionEvent e ) {
@@ -245,9 +225,10 @@ public class ForexPredictionJobEntryDialog extends JobEntryDialog implements Job
         wOutputFolder.addModifyListener( lsMod );
         fdOutputFolder = new FormData();
         fdOutputFolder.left = new FormAttachment( middle, 0 );
-        fdOutputFolder.top = new FormAttachment( wFilename, 2 * margin );
+        fdOutputFolder.top = new FormAttachment( wFilename, margin );
         fdOutputFolder.right = new FormAttachment( wbOutputFolder, -margin );
         wOutputFolder.setLayoutData( fdOutputFolder );
+        wOutputFolder.setToolTipText( BaseMessages.getString( PKG, "ForexPrediction.OutputFolder.Tooltip" ) );
 
         // Forecast Steps line
         wlForecastSteps = new Label( shell, SWT.RIGHT );
@@ -290,31 +271,8 @@ public class ForexPredictionJobEntryDialog extends JobEntryDialog implements Job
                 meta.setChanged();
             }
         } );
+        wToSave.setToolTipText(BaseMessages.getString( PKG, "ForexPrediction.ToSave.Tooltip" ) );
 
-
-        // to load check
-        wlToLoad = new Label( shell, SWT.RIGHT );
-        wlToLoad.setText( BaseMessages.getString( PKG, "ForexPrediction.ToLoad.Label" ) );
-        props.setLook( wlToLoad );
-        fdlToLoad = new FormData();
-        fdlToLoad.left = new FormAttachment( 0, 0 );
-        fdlToLoad.top = new FormAttachment( wToSave, margin );
-        fdlToLoad.right = new FormAttachment( middle, -margin );
-        wlToLoad.setLayoutData( fdlToLoad );
-        wToLoad = new Button( shell, SWT.CHECK );
-        props.setLook( wToLoad );
-        fdToLoad = new FormData();
-        fdToLoad.left = new FormAttachment( middle, 0 );
-        fdToLoad.top = new FormAttachment( wToSave, margin );
-        fdToLoad.right = new FormAttachment( 100, 0 );
-        wToLoad.setLayoutData( fdToLoad );
-        wToLoad.addSelectionListener( new SelectionAdapter() {
-            public void widgetSelected( SelectionEvent e ) {
-                meta.setToLoad(!meta.isToLoad());
-                meta.setChanged();
-                setActiveLoad();
-            }
-        } );
 
         // to load file
         wlToLoadFile = new Label( shell, SWT.RIGHT );
@@ -322,15 +280,15 @@ public class ForexPredictionJobEntryDialog extends JobEntryDialog implements Job
         props.setLook( wlToLoadFile );
         fdlToLoadFile = new FormData();
         fdlToLoadFile.left = new FormAttachment( 0, 0 );
-        fdlToLoadFile.top = new FormAttachment( wToLoad, margin );
+        fdlToLoadFile.top = new FormAttachment( wToSave, margin );
         fdlToLoadFile.right = new FormAttachment( middle, 0 );
         wlToLoadFile.setLayoutData( fdlToLoadFile );
 
         wbToLoadFile = new Button( shell, SWT.PUSH | SWT.CENTER );
         props.setLook( wbToLoadFile );
-        wbToLoadFile.setText( BaseMessages.getString( PKG, "System.Button.Browse" ) );
+        wbToLoadFile.setText( BaseMessages.getString( PKG, "ForexPrediction.Browse" ) );
         fdbToLoadFile = new FormData();
-        fdbToLoadFile.top = new FormAttachment( wToLoad, margin );
+        fdbToLoadFile.top = new FormAttachment( wToSave, margin );
         fdbToLoadFile.right = new FormAttachment( 100, 0 );
         wbToLoadFile.setLayoutData( fdbToLoadFile );
 
@@ -340,14 +298,9 @@ public class ForexPredictionJobEntryDialog extends JobEntryDialog implements Job
         fdToLoadFile = new FormData();
         fdToLoadFile.left = new FormAttachment( middle, 0 );
         fdToLoadFile.right = new FormAttachment( wbToLoadFile, -margin );
-        fdToLoadFile.top = new FormAttachment( wToLoad, margin );
+        fdToLoadFile.top = new FormAttachment( wToSave, margin );
         wToLoadFile.setLayoutData( fdToLoadFile );
-
-        wToLoadFile.addModifyListener( new ModifyListener() {
-            public void modifyText( ModifyEvent e ) {
-                wToLoadFile.setToolTipText( jobMeta.environmentSubstitute( wToLoadFile.getText() ) );
-            }
-        } );
+        wToLoadFile.setToolTipText( BaseMessages.getString( PKG, "ForexPrediction.ToLoadFile.Tooltip" ) );
 
         wbToLoadFile.addSelectionListener( new SelectionAdapter() {
             public void widgetSelected( SelectionEvent e ) {
@@ -374,7 +327,7 @@ public class ForexPredictionJobEntryDialog extends JobEntryDialog implements Job
 
         wbConfigFile = new Button( shell, SWT.PUSH | SWT.CENTER );
         props.setLook( wbConfigFile );
-        wbConfigFile.setText( BaseMessages.getString( PKG, "System.Button.Browse" ) );
+        wbConfigFile.setText( BaseMessages.getString( PKG, "ForexPrediction.Browse" ) );
         fdbConfigFile = new FormData();
         fdbConfigFile.top = new FormAttachment( wToLoadFile, margin );
         fdbConfigFile.right = new FormAttachment( 100, 0 );
@@ -388,13 +341,7 @@ public class ForexPredictionJobEntryDialog extends JobEntryDialog implements Job
         fdConfigFile.right = new FormAttachment( wbConfigFile, -margin );
         fdConfigFile.top = new FormAttachment( wToLoadFile, margin );
         wConfigFile.setLayoutData( fdConfigFile );
-
-        wConfigFile.addModifyListener( new ModifyListener() {
-            public void modifyText( ModifyEvent e ) {
-                wToLoadFile.setToolTipText( jobMeta.environmentSubstitute( wConfigFile.getText() ) );
-            }
-        } );
-
+        wConfigFile.setToolTipText( BaseMessages.getString( PKG, "ForexPrediction.ConfigFile.Tooltip" ) );
         wbConfigFile.addSelectionListener( new SelectionAdapter() {
             public void widgetSelected( SelectionEvent e ) {
                 FileDialog dialog = new FileDialog( shell, SWT.SAVE );
@@ -413,7 +360,7 @@ public class ForexPredictionJobEntryDialog extends JobEntryDialog implements Job
         wOK.setText( BaseMessages.getString( PKG, "System.Button.OK" ) );
         wCancel = new Button( shell, SWT.PUSH );
         wCancel.setText( BaseMessages.getString( PKG, "System.Button.Cancel" ) );
-        BaseStepDialog.positionBottomButtons( wModelConfigFolder, new Button[] { wOK, wCancel }, margin, null );
+        BaseStepDialog.positionBottomButtons( wConfigFile, new Button[] { wOK, wCancel }, margin, null );
 
         lsCancel = new Listener() {
             public void handleEvent( Event e ) {
@@ -448,8 +395,6 @@ public class ForexPredictionJobEntryDialog extends JobEntryDialog implements Job
         } );
 
         populateDialog();
-        setActiveLoad();
-
 
         BaseStepDialog.setSize( shell );
 
@@ -469,12 +414,6 @@ public class ForexPredictionJobEntryDialog extends JobEntryDialog implements Job
         shell.dispose();
     }
 
-    public void setActiveLoad() {
-        wlToLoadFile.setEnabled( meta.isToLoad() );
-        wToLoadFile.setEnabled( meta.isToLoad() );
-        wbToLoadFile.setEnabled( meta.isToLoad() );
-    }
-
     /**
      * Copy information from the meta-data input to the dialog fields.
      */
@@ -484,7 +423,6 @@ public class ForexPredictionJobEntryDialog extends JobEntryDialog implements Job
         wOutputFolder.setText(Const.nullToEmpty( meta.getOutput()) );
         wForecastSteps.setText(Const.nullToEmpty( meta.getForecastSteps()) );
         wToSave.setSelection( meta.isToSave() );
-        wToLoad.setSelection( meta.isToLoad() );
         wToLoadFile.setText(Const.nullToEmpty( meta.getToLoadFile()));
         wConfigFile.setText(Const.nullToEmpty(meta.getConfigFeaturesFile()));
 
@@ -516,7 +454,6 @@ public class ForexPredictionJobEntryDialog extends JobEntryDialog implements Job
         meta.setOutput( wOutputFolder.getText() );
         meta.setForecastSteps( wForecastSteps.getText() );
         meta.setToSave( wToSave.getSelection() );
-        meta.setToLoad( wToLoad.getSelection() );
         meta.setToLoadFile( wToLoadFile.getText() );
         meta.setConfigFeaturesFile(wConfigFile.getText());
 
