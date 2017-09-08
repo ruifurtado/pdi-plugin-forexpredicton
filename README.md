@@ -56,7 +56,7 @@ As stated before, the pdi-plugin-forexprediction is a forecasting plugin that as
 
 * __Feature config file__: It's possible to specify the model hyperparameters by providing the path to a simple Java Properties file. A sample file called *config.properties*, is available at pdi-plugin-forexpredicton-master\assemblies\plugin\src\main\resources. It's also possible to tweek the number of days that each Technical Indicator considers for it's calculation. If a .properties file is not specified by the user, the system will use pre-defined default values.
 
-##Plugin output
+## Plugin output
 
 The system produces a different variety of files as outputs: 
 
