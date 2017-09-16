@@ -69,5 +69,6 @@ The system produces a different variety of files as outputs:
 There is also a python script called __plot.py__ that is available at pdi-plugin-forexpredicton-master\assemblies\plugin\src\main\resources. This script could be used to get a visual inspection of how well the model is performing in each market. The script will ask for two CSV's: one market output file, and the original market file (the one without predictions). The plot should be similar to the one presented below. It is perfectly possible to use another plotting tool. 
 
 <br><br>
-![plot](https://user-images.githubusercontent.com/11192624/30513484-f9ea835e-9afb-11e7-9b20-1c1e2b3660fc.png)
+![plot](https://user-images.githubusercontent.com/11192624/30513532-bf6f76de-9afc-11e7-9daf-0ca2d94fec78.png)
 
+The orange and the green line represent predictions made by the model, the actual forecast and evalaution respectively. The blue line represents the market values from the original CSV. 
