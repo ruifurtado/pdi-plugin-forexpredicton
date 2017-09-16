@@ -4,7 +4,7 @@
 
 # pdi-plugin-forexprediction
 
-A kettle plugin to forecast and compare how a set of different FOREX markets will be in a near future. [Technical Analysis](https://en.wikipedia.org/wiki/Technical_analysis) is used as feature generator tool and [Spark ML lib](https://spark.apache.org/mllib/) as the selected Machine Learning library.
+A kettle plugin to compare different FOREX markets, regarding a specific forecast window selected by the user. A [Spark ML lib](https://spark.apache.org/mllib/) Random Forest model is used to predict each market value. [Technical Analysis](https://en.wikipedia.org/wiki/Technical_analysis) is used as feature generator tool, using [TA-Lib](https://github.com/BYVoid/TA-Lib) 
 <br><br>
 ![dialog](https://user-images.githubusercontent.com/11192624/29835337-95c404f6-8ce9-11e7-8539-0bba8250ca88.png)
 
@@ -62,6 +62,9 @@ The system produces a different variety of files as outputs:
 
 * __Output file__: The output file is the file that makes a comparision between different markets. Each market is ranked according to volatility regarding the number of forecasted days. The file displays as metrics the market trend __direction__, the __aprox price change__, the __volatility__ and of course the __rank__ of each market. Each given parameter is calculated regarding the results displayed by each individual __market ouput file__ explained below.
 
-* __Market output file__: As stated previously, when the plugins stops, an individual file is created with metrics regarding each market. This file is created under the name *__####OutputFile.csv__*, where *####* is the name of the market, extracted from the original CSV. This file should be used as a complement to the information displayed in the general *__OutputFile.csv__* where each market is ranked according volatility. Its output as daily information regarding the size of the prediction selected by the user. The available metrics are the daily __prediction__, the market trend __direction__, the percentage of __price change__, and again the __volatility__ in percentage but this time with respect to the last 10 days. 
+* __Market output file__: As stated previously, when the plugins stops, an individual file is created with metrics regarding each market. This file is created under the name *__####OutputFile.csv__*, where *####* is the name of the market, extracted from the original CSV. This file should be used as a complement to the information displayed in the general *__OutputFile.csv__* where each market is ranked according volatility. Its output as daily information regarding the size of the prediction selected by the user. The available metrics are the daily __prediction__, the market trend __direction__, the percentage of __price change__, and again the __volatility__ in percentage but this time with respect to the last 10 days. The size of the file in terms of rows is always the size of the prediction selected by the user x2. The extra rows will be used to evaluate the market.
 
-* __Evaluation file__: To give to the user some information of how good were the model predictions, an evaluation .TXT file was created. This file displays regular *regression evaluation metrics*, such as the *RMSE*, *MAE*, *R^2* and *MSE*, regarding each individual market. 
+* __Evaluation file__: To give to the user some information of how good were the model predictions, an evaluation .TXT file was created. This file displays classical *regression evaluation metrics*, such as the *RMSE*, *MAE*, *R^2* and *MSE*. We also provide the highest and lowest value of the market.
+
+There is also a python script called __plot.py__ that is available at pdi-plugin-forexpredicton-master\assemblies\plugin\src\main\resources. This script could be used to get a visual inspection of how well the model is performing in each market. The script will ask for two CSV's: one market output file, and the original market file (the one without predictions). The plot should be similar to the one presented below. It is perfectly possible to use another plotting tool. 
+
