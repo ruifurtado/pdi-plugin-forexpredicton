@@ -46,7 +46,7 @@ As stated before, the pdi-plugin-forexprediction is a forecasting plugin that as
 
 * __Input folder path__: The plugin receives __N__ CSV's, which correspond to __N__ different markets that user wants to evaluate. To provide this data as input, the user needs to have all the CSV's stored in the same folder, and specify this folder path in the plugin dialog. The specified folder should only contain CSV's that are going to be used by the plugin. The inputed CSV's should be properly formatted as the ones provided in the *sample* folder. The system does not accept non-numerical features, so the user should be careful with the values displayed by each data row. 
 
-* __Output folder path__: An output folder should also be specified by the user. This folder is going to have a __N__ number of CSV's that correspond to individual forecasts of each market. Additionally, an extra CSV will also be provided where each market is compared, along with a market evaluation .TXT file. 
+* __Output folder path__: An output folder should also be specified by the user. This folder is going to have a __N__ number of CSV's that correspond to individual forecasts of each market. Additionally, an extra CSV will also be provided where each market is compared, along with a market evaluation .txt file. 
 
 * __Prediction Steps__: This parameter specifies how many days are we going to predict. 
 
