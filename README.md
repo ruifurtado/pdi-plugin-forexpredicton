@@ -72,3 +72,4 @@ There is also a python script called __plot.py__ that is available at *pdi-plugi
 ![plot](https://user-images.githubusercontent.com/11192624/30513532-bf6f76de-9afc-11e7-9daf-0ca2d94fec78.png)
 
 The orange and the green line represent predictions made by the model, the actual forecast and evalaution respectively. The blue line represents the market values from the original CSV. 
+
