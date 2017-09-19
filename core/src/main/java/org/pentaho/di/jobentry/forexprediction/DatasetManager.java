@@ -28,15 +28,8 @@ public class DatasetManager {  //Format Date,EUR/USD Close,EUR/USD High,EUR/USD 
     private List<String> hyperparameters=new ArrayList<>();
     private List<Integer> daysComparer=new ArrayList<>();
     private String csvFile;
-    private EMA ema;
     private File file;
     private File file2;
-    private SMA sma;
-    private WMA wma;
-    private MOM mom;
-    private MACD macd;
-    private RSI rsi;
-    private LabelMaker labelCreator;
     private int numberOfLines;
     private File baseDir;
     private int numberOfDaysToPredict;
@@ -119,33 +112,37 @@ public class DatasetManager {  //Format Date,EUR/USD Close,EUR/USD High,EUR/USD 
 
         datasetCreator();
 
-        sma = new SMA(dataset, smaDays); //Depois tenho de passar estes dias para constante
+        SMA sma = new SMA(dataset, smaDays);
         sma.calculateSma();
         dataset = sma.getDataset();
 
-        ema = new EMA(dataset, emaDays);
+        EMA ema = new EMA(dataset, emaDays);
         ema.calculateEma();
         dataset = ema.getDataset();
 
-        wma = new WMA(dataset, wmaDays);
+        WMA wma = new WMA(dataset, wmaDays);
         wma.calculateWma();
         dataset = wma.getDataset();
 
-        mom = new MOM(dataset, momDays);
+        MOM mom = new MOM(dataset, momDays);
         mom.calculateMom();
         dataset = mom.getDataset();
 
-        macd = new MACD(dataset, macdFast,macdSlow,macdDays);
+        MACD macd = new MACD(dataset, macdFast, macdSlow, macdDays);
         macd.calculateMacd();
         dataset = macd.getDataset();
 
-        rsi=new RSI(dataset,rsiDays);
+        RSI rsi = new RSI(dataset, rsiDays);
         rsi.calculateRsi();
-        dataset=rsi.getDataset();
+        dataset= rsi.getDataset();
 
-        labelCreator = new LabelMaker(dataset,numberOfDaysToPredict);
+        LagDays lagDays = new LagDays(dataset);
+        lagDays.calculateLagDays();
+        dataset= lagDays.getDataset();
+
+        LabelMaker labelCreator = new LabelMaker(dataset, numberOfDaysToPredict);
         labelCreator.LabelAtribuiton();
-        labelset =labelCreator.getLabelset();
+        labelset = labelCreator.getLabelset();
         cleaner();
 
 
@@ -173,6 +170,7 @@ public class DatasetManager {  //Format Date,EUR/USD Close,EUR/USD High,EUR/USD 
 
     public void writeNewTrainTestCsv(double [][] d,double [] l,int lookback) throws IOException {
         String append=getNameForFile(csvFile);
+        int evaluationPartSize=lookback;
         file=new File(outputFolderPath,append+"TrainFile.csv");
         file2=new File(outputFolderPath,append+"TestFile.csv");
         if(file.exists() && file2.exists()){
@@ -192,8 +190,14 @@ public class DatasetManager {  //Format Date,EUR/USD Close,EUR/USD High,EUR/USD 
                 e.printStackTrace();
             }
         }
-        for (int j=d.length-lookback;j<d.length;j++){
-            String line=datasetDates.get(j)+","+Arrays.toString(d[j]).substring(1,Arrays.toString(d[j]).length()-1).replace(" ","")+"\n";
+        for (int j=d.length-lookback-evaluationPartSize;j<d.length;j++){
+            String line;
+            if(j>=l.length-lookback) {
+                line = datasetDates.get(j) + "," + Arrays.toString(d[j]).substring(1, Arrays.toString(d[j]).length() - 1).replace(" ", "") + "," + "\n";
+            }
+            else{
+                line = datasetDates.get(j) + "," + Arrays.toString(d[j]).substring(1, Arrays.toString(d[j]).length() - 1).replace(" ", "") + "," +l[j]+ "\n";
+            }
             try {
                 Files.write(file2.toPath(), line.getBytes(), StandardOpenOption.APPEND);
             } catch (IOException e) {
@@ -230,13 +234,9 @@ public class DatasetManager {  //Format Date,EUR/USD Close,EUR/USD High,EUR/USD 
                 macdDays = Integer.parseInt(prop.getProperty("MACDdays"));
                 rsiDays = Integer.parseInt(prop.getProperty("RSIdays"));
 
-                hyperparameters.add(prop.getProperty("maxBins"));
-                hyperparameters.add(prop.getProperty("iterations"));
-                hyperparameters.add(prop.getProperty("lossType"));
+                hyperparameters.add(prop.getProperty("numTrees"));
                 hyperparameters.add(prop.getProperty("maxDepth"));
-                hyperparameters.add(prop.getProperty("impurity"));
-                hyperparameters.add(prop.getProperty("stepSize"));
-                hyperparameters.add(prop.getProperty("subsamplingRate"));
+
 
             } catch (Exception e) {
                 e.printStackTrace();

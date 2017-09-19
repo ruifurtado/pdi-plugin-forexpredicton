@@ -62,13 +62,11 @@ public class ForexPredictionJobEntry extends JobEntryBase implements Cloneable, 
     private List<String> filesList=new ArrayList<>();
     private String configFeaturesFile;
 
-    private static String DEFAULT_FORECAST_STEPS = "3";
-
     public ForexPredictionJobEntry(String name ) {
         super( name, "" );
         filename = null;
         output = null;
-        forecastSteps = DEFAULT_FORECAST_STEPS;
+        forecastSteps = null;
         toLoad = false;
         toLoadFile = null;
         toSave = false;
@@ -196,18 +194,24 @@ public class ForexPredictionJobEntry extends JobEntryBase implements Cloneable, 
         }
 
         List<List<String>> outputFileList=new ArrayList<>();
+        List<String> marketEvaluations=new ArrayList<>();
 
         try {
             filesInFolder(realFolderFilename);
             for(int i=0;i<filesList.size();i++){
+                logBasic("Started the evaluation of "+ filesList.get(i)+" market");
                 DatasetManager data=new DatasetManager(filesList.get(i),realForecastSteps,realOutput,realConfigFeaturesFile);
                 data.fillDataset();
-                TimeSeriesSparkPrediction ts=new TimeSeriesSparkPrediction(filesList.get(i),realOutput,realToLoadFile,toSave,toLoad,i,realConfigFeaturesFile);
+                TimeSeriesSparkPrediction ts=new TimeSeriesSparkPrediction(filesList.get(i),realOutput,realToLoadFile,toSave,toLoad,realConfigFeaturesFile);
                 ts.TimeSeriesPredict();
                 outputFileList.add(ts.getOutputFileline());
+                marketEvaluations.add(ts.getMarketEvaluation());
+                logBasic("Market: "+filesList.get(i)+" evaluated");
             }
-            OutputFileMaker out=new OutputFileMaker(outputFileList,realOutput);
-            out.writeOutputTextFile();
+            logBasic("Making output file");
+            OutputFileMaker out=new OutputFileMaker(outputFileList,realOutput,marketEvaluations);
+            logBasic("Finished the output file");
+            out.run();
 
         } catch (Exception e) {
             result.setNrErrors( 1 );

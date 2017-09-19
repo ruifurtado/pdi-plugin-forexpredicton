@@ -21,17 +21,32 @@ public class OutputFileMaker {
     private List<List<String>> outputFileList=new ArrayList<>();
     private List<List<String>> upList = new ArrayList<>();
     private List<List<String>> downList =new ArrayList<>();
-    private List<List<String>> sortedUpList = new ArrayList<>();
-    private List<List<String>> sortedDownList =new ArrayList<>();
-
+    private List<String> marketEvaluations = new ArrayList<>();
     private String outputFilePath;
 
-    public OutputFileMaker(List<List<String>> outputFileList, String outputFilePath){
+    public OutputFileMaker(List<List<String>> outputFileList, String outputFilePath, List<String> marketEvaluations){
         this.outputFileList=outputFileList;
         this.outputFilePath=outputFilePath;
+        this.marketEvaluations=marketEvaluations;
     }
 
-    public void writeOutputTextFile() throws IOException {
+    public void run() throws IOException {
+        writeOutputTextFile();
+        writeEvaluationFile();
+    }
+
+    private void writeEvaluationFile() throws IOException {
+        File evalFile=new File(outputFilePath,"EvaluationFile.txt");
+        evalFile.delete();
+        evalFile.createNewFile();
+        String l="MARKET EVALUATION FILE"+"\n\n";
+        Files.write(evalFile.toPath(), l.getBytes(), StandardOpenOption.WRITE);
+        for(String s:marketEvaluations){
+            Files.write(evalFile.toPath(), s.getBytes(), StandardOpenOption.APPEND);
+        }
+    }
+
+    private void writeOutputTextFile() throws IOException {
         File outputFile=new File(outputFilePath,"OutputFile.csv");
         outputFile.delete();
         outputFile.createNewFile();
@@ -45,15 +60,15 @@ public class OutputFileMaker {
                 upList.add(line);
             }
         }
-        sortedDownList= sorter(downList);
-        sortedUpList=sorter(upList);
+        List<List<String>> sortedDownList = sorter(downList);
+        List<List<String>> sortedUpList = sorter(upList);
         int rank=1;
-        for(List<String> up:sortedUpList){
+        for(List<String> up: sortedUpList){
             String line=up.get(NAME)+";"+up.get(DIRECTION)+";"+up.get(APROXCHANGE)+";"+up.get(VOLATILITY)+";"+rank+"\n";
             Files.write(outputFile.toPath(), line.getBytes(), StandardOpenOption.APPEND);
             rank++;
         }
-        for(List<String> down:sortedDownList){
+        for(List<String> down: sortedDownList){
             String line=down.get(NAME)+";"+down.get(DIRECTION)+";"+down.get(APROXCHANGE)+";"+down.get(VOLATILITY)+";"+rank+"\n";
             Files.write(outputFile.toPath(), line.getBytes(), StandardOpenOption.APPEND);
             rank++;
