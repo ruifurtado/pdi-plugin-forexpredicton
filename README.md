@@ -76,3 +76,12 @@ There is also a python script called __plot.py__ that is available at *pdi-plugi
 The orange and the green line represent predictions made by the model, the actual forecast and evalaution respectively. The blue line represents the market values from the original CSV. 
 
 ## To be implemented
+
+* Create a method to evaluate how good are the markets predictions 
+* Create a cross validation mechanism to improve results
+* Implement an hyperparameter search mechanism 
+* Provide automatic information extraction through an API instead of manually provide each CSV
+* Make the system able to work with information in different time frames: second, weekly 
+* Add support running in distributed mode over Spark cluster
+* Capability of having different settings for each market
+
